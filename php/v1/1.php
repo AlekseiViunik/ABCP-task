@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 class User
 {
-    const LIMIT = 10;
+    public const LIMIT = 10;
 
     /**
      * Возвращает пользователей старше заданного возраста.
@@ -40,7 +40,7 @@ class User
     public function addUsersToDataBase(array $users): array
     {
         $ids = [];
-        $gateway =\Gateway\User::getInstance();
+        $gateway = \Gateway\User::getInstance();
         $gateway->beginTransaction();
         try {
             foreach ($users as $user) {
@@ -56,16 +56,20 @@ class User
         return $ids;
     }
 
-    private function validateUser(array $user): void {
-        if(!isset($user['name']) || !is_string($user['name'])) {
+    private function validateUser(array $user): void
+    {
+        if (!isset($user['name']) || !is_string($user['name']))
+        {
             throw new InvalidArgumentException('The "name" field is required and must be a string.');
         }
 
-        if(!isset($user['lastName']) || !is_string($user['lastName'])) {
+        if (!isset($user['lastName']) || !is_string($user['lastName']))
+        {
             throw new InvalidArgumentException('The "lastName" field is required and must be a string.');
         }
 
-        if(!isset($user['age']) || !is_int($user['age'])) {
+        if (!isset($user['age']) || !is_int($user['age']))
+        {
             throw new InvalidArgumentException('The "age" field is required and must be an int.');
         }
     }
