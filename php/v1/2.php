@@ -3,6 +3,10 @@
 namespace Gateway;
 
 use PDO;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 class User
 {
@@ -17,11 +21,13 @@ class User
      */
     public static function getInstance(): PDO
     {
+
         if (is_null(self::$instance)) {
-            $dsn = 'mysql:dbname=db;host=127.0.0.1';
-            $user = 'dbuser';
-            $password = 'dbpass';
+            $dsn = getenv('DB_DSN');
+            $user = getenv('DB_USER');
+            $password = getenv('DB_PASSWORD');
             self::$instance = new PDO($dsn, $user, $password);
+            self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
 
         return self::$instance;
@@ -34,19 +40,26 @@ class User
      */
     public static function getUsers(int $ageFrom): array
     {
-        $stmt = self::getInstance()->prepare("SELECT id, name, lastName, from, age, settings FROM Users WHERE age > {$ageFrom} LIMIT " . \Manager\User::limit);
+        $stmt = self::getInstance()->prepare("
+            SELECT id, name, lastName, `from`, age, settings
+            FROM Users 
+            WHERE age > :ageFrom
+            LIMIT :limit");
+        $stmt->bindParam(':ageFrom', $ageFrom, PDO::PARAM_INT);
+        $limit = \Manager\User::LIMIT;
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $users = [];
         foreach ($rows as $row) {
-            $settings = json_decode($row['settings']);
+            $settings = json_decode($row['settings'], true);
             $users[] = [
                 'id' => $row['id'],
                 'name' => $row['name'],
                 'lastName' => $row['lastName'],
                 'from' => $row['from'],
                 'age' => $row['age'],
-                'key' => $settings['key'],
+                'key' => $settings['key'] ?? null,
             ];
         }
 
@@ -60,7 +73,11 @@ class User
      */
     public static function user(string $name): array
     {
-        $stmt = self::getInstance()->prepare("SELECT id, name, lastName, from, age, settings FROM Users WHERE name = {$name}");
+        $stmt = self::getInstance()->prepare("
+            SELECT id, name, lastName, `from`, age, settings 
+            FROM Users 
+            WHERE name = :name");
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->execute();
         $user_by_name = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -82,7 +99,7 @@ class User
      */
     public static function add(string $name, string $lastName, int $age): string
     {
-        $sth = self::getInstance()->prepare("INSERT INTO Users (name, lastName, age) VALUES (:name, :age, :lastName)");
+        $sth = self::getInstance()->prepare("INSERT INTO Users (name, lastName, age) VALUES (:name, :lastName, :age)");
         $sth->execute([':name' => $name, ':age' => $age, ':lastName' => $lastName]);
 
         return self::getInstance()->lastInsertId();
