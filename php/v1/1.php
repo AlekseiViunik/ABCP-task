@@ -2,55 +2,71 @@
 
 namespace Manager;
 
+use Exception;
+use InvalidArgumentException;
+
 class User
 {
-    const limit = 10;
+    const LIMIT = 10;
 
     /**
      * Возвращает пользователей старше заданного возраста.
      * @param int $ageFrom
      * @return array
      */
-    function getUsers(int $ageFrom): array
+    public function getUsers(int $ageFrom): array
     {
-        $ageFrom = (int)trim($ageFrom);
-
         return \Gateway\User::getUsers($ageFrom);
     }
 
     /**
      * Возвращает пользователей по списку имен.
+     * @param array $names
      * @return array
      */
-    public static function getByNames(): array
+    public function getByNames(array $names): array
     {
-        $users = [];
-        foreach ($_GET['names'] as $name) {
-            $users[] = \Gateway\User::user($name);
-        }
-
-        return $users;
+        return array_map(function ($name) {
+            return \Gateway\User::user($name);
+        }, $names);
     }
 
     /**
      * Добавляет пользователей в базу данных.
-     * @param $users
+     * @param array $users
      * @return array
+     * @throws Exception
      */
-    public function users($users): array
+    public function addUsersToDataBase(array $users): array
     {
         $ids = [];
-        \Gateway\User::getInstance()->beginTransaction();
-        foreach ($users as $user) {
-            try {
+        $gateway =\Gateway\User::getInstance();
+        $gateway->beginTransaction();
+        try {
+            foreach ($users as $user) {
+                $this->validateUser($user);
                 \Gateway\User::add($user['name'], $user['lastName'], $user['age']);
-                \Gateway\User::getInstance()->commit();
-                $ids[] = \Gateway\User::getInstance()->lastInsertId();
-            } catch (\Exception $e) {
-                \Gateway\User::getInstance()->rollBack();
+                $ids[] = $gateway->lastInsertId();
             }
+            $gateway->commit();
+        } catch (Exception $e) {
+            $gateway->rollBack();
+            throw $e;
+        }
+        return $ids;
+    }
+
+    private function validateUser(array $user): void {
+        if(!isset($user['name']) || !is_string($user['name'])) {
+            throw new InvalidArgumentException('The "name" field is required and must be a string.');
         }
 
-        return $ids;
+        if(!isset($user['lastName']) || !is_string($user['lastName'])) {
+            throw new InvalidArgumentException('The "lastName" field is required and must be a string.');
+        }
+
+        if(!isset($user['age']) || !is_int($user['age'])) {
+            throw new InvalidArgumentException('The "age" field is required and must be an int.');
+        }
     }
 }
