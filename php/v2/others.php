@@ -2,27 +2,6 @@
 
 namespace NW\WebService\References\Operations\Notification;
 
-/**
- * @property Seller $Seller
- */
-class Contractor
-{
-    const TYPE_CUSTOMER = 0;
-    public $id;
-    public $type;
-    public $name;
-
-    public static function getById(int $resellerId): self
-    {
-        return new self($resellerId); // fakes the getById method
-    }
-
-    public function getFullName(): string
-    {
-        return $this->name . ' ' . $this->id;
-    }
-}
-
 class Seller extends Contractor
 {
 }
@@ -57,12 +36,12 @@ abstract class ReferencesOperation
     }
 }
 
-function getResellerEmailFrom()
+function getResellerEmailFrom(): string
 {
     return 'contractor@example.com';
 }
 
-function getEmailsByPermit($resellerId, $event)
+function getEmailsByPermit($resellerId, $event): array
 {
     // fakes the method
     return ['someemeil@example.com', 'someemeil2@example.com'];
@@ -70,6 +49,6 @@ function getEmailsByPermit($resellerId, $event)
 
 class NotificationEvents
 {
-    const CHANGE_RETURN_STATUS = 'changeReturnStatus';
+    public const CHANGE_RETURN_STATUS = 'changeReturnStatus';
     const NEW_RETURN_STATUS    = 'newReturnStatus';
 }
