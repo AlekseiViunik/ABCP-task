@@ -4,6 +4,9 @@ namespace NW\WebService\References\Operations\Notification;
 
 use Exception;
 
+/**
+ * Class TsReturnOperation
+ */
 class TsReturnOperation extends ReferencesOperation
 {
     public const TYPE_NEW    = 1;
@@ -11,6 +14,9 @@ class TsReturnOperation extends ReferencesOperation
     public const EVENT = 'tsGoodsReturn';
 
     /**
+     * Execute the operation.
+     *
+     * @return array
      * @throws Exception
      */
     public function doOperation(): array
