@@ -22,6 +22,6 @@ abstract class ReferencesOperation
      */
     public function getRequest($parameterName): mixed
     {
-        return $_REQUEST[$parameterName];
+        return $_REQUEST[$parameterName] ?? null;
     }
 }
