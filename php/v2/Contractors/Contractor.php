@@ -26,6 +26,13 @@ class Contractor
      */
     public string $name;
 
+    public function __construct(int $id, int $type = self::TYPE_CUSTOMER, string $name = '')
+    {
+        $this->id = $id;
+        $this->type = $type;
+        $this->name = $name;
+    }
+
     public static function getById(int $resellerId): self
     {
         return new self($resellerId); // fakes the getById method
@@ -34,11 +41,5 @@ class Contractor
     public function getFullName(): string
     {
         return $this->name . ' ' . $this->id;
-    }
-
-    public function __construct(int $id)
-    {
-        $this->id = $id;
-        // Здесь можно добавить логику инициализации объекта
     }
 }
