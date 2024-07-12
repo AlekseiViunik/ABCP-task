@@ -10,9 +10,10 @@ class EmailHelper
     /**
      * Get the email address of the reseller.
      *
+     * @param int $resellerId
      * @return string
      */
-    public static function getResellerEmailFrom(): string
+    public static function getResellerEmailFrom(int $resellerId): string
     {
         return 'contractor@example.com';
     }
