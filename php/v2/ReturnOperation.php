@@ -2,15 +2,18 @@
 
 namespace NW\WebService\References\Operations\Notification;
 
+use Exception;
+
 class TsReturnOperation extends ReferencesOperation
 {
     public const TYPE_NEW    = 1;
     public const TYPE_CHANGE = 2;
+    public const EVENT = 'tsGoodsReturn';
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function doOperation(): void
+    public function doOperation(): array
     {
         $data = (array)$this->getRequest('data');
         $resellerId = $data['resellerId'];
@@ -30,17 +33,17 @@ class TsReturnOperation extends ReferencesOperation
         }
 
         if (empty((int)$notificationType)) {
-            throw new \Exception('Empty notificationType', 400);
+            throw new Exception('Empty notificationType', 400);
         }
 
         $reseller = Seller::getById((int)$resellerId);
         if ($reseller === null) {
-            throw new \Exception('Seller not found!', 400);
+            throw new Exception('Seller not found!', 400);
         }
 
         $client = Contractor::getById((int)$data['clientId']);
         if ($client === null || $client->type !== Contractor::TYPE_CUSTOMER || $client->Seller->id !== $resellerId) {
-            throw new \Exception('сlient not found!', 400);
+            throw new Exception('сlient not found!', 400);
         }
 
         $cFullName = $client->getFullName();
@@ -50,12 +53,12 @@ class TsReturnOperation extends ReferencesOperation
 
         $cr = Employee::getById((int)$data['creatorId']);
         if ($cr === null) {
-            throw new \Exception('Creator not found!', 400);
+            throw new Exception('Creator not found!', 400);
         }
 
         $et = Employee::getById((int)$data['expertId']);
         if ($et === null) {
-            throw new \Exception('Expert not found!', 400);
+            throw new Exception('Expert not found!', 400);
         }
 
         $differences = '';
@@ -87,13 +90,13 @@ class TsReturnOperation extends ReferencesOperation
         // Если хоть одна переменная для шаблона не задана, то не отправляем уведомления
         foreach ($templateData as $key => $tempData) {
             if (empty($tempData)) {
-                throw new \Exception("Template Data ({$key}) is empty!", 500);
+                throw new Exception("Template Data ({$key}) is empty!", 500);
             }
         }
 
-        $emailFrom = getResellerEmailFrom($resellerId);
+        $emailFrom = EmailHelper::getResellerEmailFrom($resellerId);
         // Получаем email сотрудников из настроек
-        $emails = getEmailsByPermit($resellerId, 'tsGoodsReturn');
+        $emails = EmailHelper::getEmailsByPermit($resellerId, self::EVENT);
         if (!empty($emailFrom) && count($emails) > 0) {
             foreach ($emails as $email) {
                 MessagesClient::sendMessage([
