@@ -25,7 +25,7 @@ class TsReturnOperation extends ReferencesOperation
         if (!$data) {
             throw new Exception('Empty notificationType', 400);
         }
-        $resellerId = $data['resellerId'];
+        $resellerId = (int)$data['resellerId'];
         $notificationType = (int)$data['notificationType'];
         $result = [
             'notificationEmployeeByEmail' => false,
@@ -36,37 +36,37 @@ class TsReturnOperation extends ReferencesOperation
             ],
         ];
 
-        if (empty((int)$resellerId)) {
+        if (!$resellerId) {
             $result['notificationClientBySms']['message'] = 'Empty resellerId';
             return $result;
         }
 
-        if (empty((int)$notificationType)) {
+        if (!$notificationType) {
             throw new Exception('Empty notificationType', 400);
         }
 
-        $reseller = Seller::getById((int)$resellerId);
-        if ($reseller === null) {
+        $reseller = Seller::getById($resellerId);
+        if (!$reseller) {
             throw new Exception('Seller not found!', 400);
         }
 
         $client = Contractor::getById((int)$data['clientId']);
-        if ($client === null || $client->type !== Contractor::TYPE_CUSTOMER || $client->Seller->id !== $resellerId) {
+        if (!$client || $client->type !== Contractor::TYPE_CUSTOMER || $client->Seller->id !== $resellerId) {
             throw new Exception('сlient not found!', 400);
         }
 
         $cFullName = $client->getFullName();
-        if (empty($client->getFullName())) {
+        if (!$client->getFullName()) {
             $cFullName = $client->name;
         }
 
         $creator = Employee::getById((int)$data['creatorId']);
-        if ($creator === null) {
+        if (!$creator) {
             throw new Exception('Creator not found!', 400);
         }
 
         $expert = Employee::getById((int)$data['expertId']);
-        if ($expert === null) {
+        if (!$expert) {
             throw new Exception('Expert not found!', 400);
         }
 
@@ -98,7 +98,7 @@ class TsReturnOperation extends ReferencesOperation
 
         // Если хоть одна переменная для шаблона не задана, то не отправляем уведомления
         foreach ($templateData as $key => $tempData) {
-            if (empty($tempData)) {
+            if (!$tempData) {
                 throw new Exception("Template Data ({$key}) is empty!", 500);
             }
         }
