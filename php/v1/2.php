@@ -9,7 +9,7 @@ class User
     /**
      * @var PDO
      */
-    public static PDO $instance;
+    private static PDO $instance;
 
     /**
      * Приватный конструктор для предотвращения создания экземпляров извне.
