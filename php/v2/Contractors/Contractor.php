@@ -33,11 +33,22 @@ class Contractor
         $this->name = $name;
     }
 
+    /**
+     * Get Contractor by ID
+     *
+     * @param int $resellerId
+     * @return self
+     */
     public static function getById(int $resellerId): self
     {
         return new self($resellerId); // fakes the getById method
     }
 
+    /**
+     * Get full name of the Contractor
+     *
+     * @return string
+     */
     public function getFullName(): string
     {
         return $this->name . ' ' . $this->id;
