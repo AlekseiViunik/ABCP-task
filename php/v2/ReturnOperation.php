@@ -51,13 +51,13 @@ class TsReturnOperation extends ReferencesOperation
             $cFullName = $client->name;
         }
 
-        $cr = Employee::getById((int)$data['creatorId']);
-        if ($cr === null) {
+        $creator = Employee::getById((int)$data['creatorId']);
+        if ($creator === null) {
             throw new Exception('Creator not found!', 400);
         }
 
-        $et = Employee::getById((int)$data['expertId']);
-        if ($et === null) {
+        $expert = Employee::getById((int)$data['expertId']);
+        if ($expert === null) {
             throw new Exception('Expert not found!', 400);
         }
 
@@ -75,9 +75,9 @@ class TsReturnOperation extends ReferencesOperation
             'COMPLAINT_ID'       => (int)$data['complaintId'],
             'COMPLAINT_NUMBER'   => (string)$data['complaintNumber'],
             'CREATOR_ID'         => (int)$data['creatorId'],
-            'CREATOR_NAME'       => $cr->getFullName(),
+            'CREATOR_NAME'       => $creator->getFullName(),
             'EXPERT_ID'          => (int)$data['expertId'],
-            'EXPERT_NAME'        => $et->getFullName(),
+            'EXPERT_NAME'        => $expert->getFullName(),
             'CLIENT_ID'          => (int)$data['clientId'],
             'CLIENT_NAME'        => $cFullName,
             'CONSUMPTION_ID'     => (int)$data['consumptionId'],
