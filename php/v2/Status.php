@@ -31,12 +31,12 @@ class Status
      */
     public static function getName(int $id): string
     {
-        $a = [
+        $statuses = [
             0 => 'Completed',
             1 => 'Pending',
             2 => 'Rejected',
         ];
 
-        return $a[$id];
+        return $statuses[$id] ?? 'Unknown';
     }
 }
