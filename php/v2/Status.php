@@ -2,9 +2,26 @@
 
 namespace NW\WebService\References\Operations\Notification;
 
+/**
+ * Class Status
+ */
 class Status
 {
-    public $id, $name;
+    /**
+     * @var int
+     */
+    public int $id;
+
+    /**
+     * @var string
+     */
+    public string $name;
+
+    public function __construct(int $id, string $name)
+    {
+        $this->id = $id;
+        $this->name = $name;
+    }
 
     public static function getName(int $id): string
     {
