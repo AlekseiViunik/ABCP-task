@@ -23,6 +23,12 @@ class Status
         $this->name = $name;
     }
 
+    /**
+     * Get the name of the status by ID.
+     *
+     * @param int $id
+     * @return string
+     */
     public static function getName(int $id): string
     {
         $a = [
