@@ -7,12 +7,24 @@ namespace NW\WebService\References\Operations\Notification;
  */
 class EmailHelper
 {
-    function getResellerEmailFrom(): string
+    /**
+     * Get the email address of the reseller.
+     *
+     * @return string
+     */
+    public static function getResellerEmailFrom(): string
     {
         return 'contractor@example.com';
     }
 
-    function getEmailsByPermit(int $resellerId, string $event): array
+    /**
+     * Get emails of employees
+     *
+     * @param int $resellerId
+     * @param string $event
+     * @return array
+     */
+    public static function getEmailsByPermit(int $resellerId, string $event): array
     {
         // fakes the method
         return ['someemeil@example.com', 'someemeil2@example.com'];
