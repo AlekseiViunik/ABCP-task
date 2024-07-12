@@ -2,10 +2,6 @@
 
 namespace NW\WebService\References\Operations\Notification;
 
-class Seller extends Contractor
-{
-}
-
 class Employee extends Contractor
 {
 }
