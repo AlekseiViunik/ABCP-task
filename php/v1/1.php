@@ -58,18 +58,15 @@ class User
 
     private function validateUser(array $user): void
     {
-        if (!isset($user['name']) || !is_string($user['name']))
-        {
+        if (!isset($user['name']) || !is_string($user['name'])) {
             throw new InvalidArgumentException('The "name" field is required and must be a string.');
         }
 
-        if (!isset($user['lastName']) || !is_string($user['lastName']))
-        {
+        if (!isset($user['lastName']) || !is_string($user['lastName'])) {
             throw new InvalidArgumentException('The "lastName" field is required and must be a string.');
         }
 
-        if (!isset($user['age']) || !is_int($user['age']))
-        {
+        if (!isset($user['age']) || !is_int($user['age'])) {
             throw new InvalidArgumentException('The "age" field is required and must be an int.');
         }
     }
