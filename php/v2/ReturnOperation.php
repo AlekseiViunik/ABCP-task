@@ -22,6 +22,9 @@ class TsReturnOperation extends ReferencesOperation
     public function doOperation(): array
     {
         $data = (array)$this->getRequest('data');
+        if (!$data) {
+            throw new Exception('Empty notificationType', 400);
+        }
         $resellerId = $data['resellerId'];
         $notificationType = (int)$data['notificationType'];
         $result = [
