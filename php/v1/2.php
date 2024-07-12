@@ -3,17 +3,20 @@
 namespace Gateway;
 
 use PDO;
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
 
 class User
 {
     /**
      * @var PDO
      */
-    public static $instance;
+    public static PDO $instance;
+
+    /**
+     * Приватный конструктор для предотвращения создания экземпляров извне.
+     */
+    private function __construct()
+    {
+    }
 
     /**
      * Реализация singleton
