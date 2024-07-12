@@ -2,10 +2,6 @@
 
 namespace NW\WebService\References\Operations\Notification;
 
-class Employee extends Contractor
-{
-}
-
 class Status
 {
     public $id, $name;
