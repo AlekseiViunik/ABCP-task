@@ -108,7 +108,7 @@ class TsReturnOperation extends ReferencesOperation
         $emails = EmailHelper::getEmailsByPermit($resellerId, self::EVENT);
         if (!empty($emailFrom) && count($emails) > 0) {
             foreach ($emails as $email) {
-                MessagesClient::sendMessage([
+                EmailHelper::sendMessage([
                     0 => [ // MessageTypes::EMAIL
                            'emailFrom' => $emailFrom,
                            'emailTo'   => $email,
@@ -123,7 +123,7 @@ class TsReturnOperation extends ReferencesOperation
         // Шлём клиентское уведомление, только если произошла смена статуса
         if ($notificationType === self::TYPE_CHANGE && !empty($data['differences']['to'])) {
             if (!empty($emailFrom) && !empty($client->email)) {
-                MessagesClient::sendMessage([
+                EmailHelper::sendMessage([
                     0 => [ // MessageTypes::EMAIL
                            'emailFrom' => $emailFrom,
                            'emailTo'   => $client->email,
@@ -135,6 +135,7 @@ class TsReturnOperation extends ReferencesOperation
             }
 
             if (!empty($client->mobile)) {
+                $error = '';
                 $res = NotificationManager::send(
                     $resellerId,
                     $client->id,
@@ -151,7 +152,6 @@ class TsReturnOperation extends ReferencesOperation
                 }
             }
         }
-
         return $result;
     }
 }
