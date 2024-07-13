@@ -74,7 +74,7 @@ class User
      * @param string $name
      * @return array
      */
-    public static function user(string $name): array
+    public static function getUserByName(string $name): array
     {
         $stmt = self::getInstance()->prepare("
             SELECT id, name, lastName, `from`, age, settings 
@@ -100,7 +100,7 @@ class User
      * @param int $age
      * @return string
      */
-    public static function add(string $name, string $lastName, int $age): string
+    public static function addUserToDataBase(string $name, string $lastName, int $age): string
     {
         $sth = self::getInstance()->prepare("INSERT INTO Users (name, lastName, age) VALUES (:name, :lastName, :age)");
         $sth->execute([':name' => $name, ':age' => $age, ':lastName' => $lastName]);

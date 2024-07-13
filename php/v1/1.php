@@ -27,7 +27,7 @@ class User
     public function getByNames(array $names): array
     {
         return array_map(function ($name) {
-            return \Gateway\User::user($name);
+            return \Gateway\User::getUserByName($name);
         }, $names);
     }
 
