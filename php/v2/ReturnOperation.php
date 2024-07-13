@@ -52,7 +52,7 @@ class TsReturnOperation extends ReferencesOperation
 
         $client = Contractor::getById((int)$data['clientId']);
         if (!$client || $client->type !== Contractor::TYPE_CUSTOMER || $client->Seller->id !== $resellerId) {
-            throw new Exception('сlient not found!', 400);
+            throw new Exception('client not found!', 400);
         }
 
         $clientFullName = $client->getFullName();
@@ -99,7 +99,7 @@ class TsReturnOperation extends ReferencesOperation
         // Если хоть одна переменная для шаблона не задана, то не отправляем уведомления
         foreach ($templateData as $key => $tempData) {
             if (!$tempData) {
-                throw new Exception("Template Data ({$key}) is empty!", 500);
+                throw new Exception("Template Data ($key) is empty!", 500);
             }
         }
 
@@ -117,7 +117,6 @@ class TsReturnOperation extends ReferencesOperation
                     ],
                 ], $resellerId, NotificationEvents::CHANGE_RETURN_STATUS);
                 $result['notificationEmployeeByEmail'] = true;
-
             }
         }
 
@@ -136,7 +135,14 @@ class TsReturnOperation extends ReferencesOperation
             }
 
             if (!empty($client->mobile)) {
-                $res = NotificationManager::send($resellerId, $client->id, NotificationEvents::CHANGE_RETURN_STATUS, (int)$data['differences']['to'], $templateData, $error);
+                $res = NotificationManager::send(
+                    $resellerId,
+                    $client->id,
+                    NotificationEvents::CHANGE_RETURN_STATUS,
+                    (int)$data['differences']['to'],
+                    $templateData,
+                    $error
+                );
                 if ($res) {
                     $result['notificationClientBySms']['isSent'] = true;
                 }
