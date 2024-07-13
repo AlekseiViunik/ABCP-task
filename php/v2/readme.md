@@ -5,21 +5,38 @@
 * напишите в комментарии краткое резюме по коду: назначение кода и его качество.
 
 ### Назначение кода
-Основной класс и вспомогательные в совокупности Он обрабатывают запросы, проверяет данные и отправляет уведомления по email и SMS.
+Основной класс и вспомогательные в совокупности Он обрабатывают запросы, проверяет данные и отправляет уведомления по email и SMS.<br><br>
 Конкретней:
-- Класс `Contractor` и его наследники (Seller, Employee):
+- Класс `Contractor` и его наследники (Seller, Employee):<br>
 Эти классы представляют собой модель данных для подрядчиков, продавцов и сотрудников. Класс Contractor имеет свойства id, type и name, а также методы для получения полного имени и поиска по идентификатору.
 
-- Класс `Status`:
+- Класс `Status`:<br>
 Этот класс содержит статические данные о статусах и метод для получения имени статуса по идентификатору.
 
-- Класс `ReferencesOperation`:
+- Класс `ReferencesOperation`:<br>
 Абстрактный класс для операций, с методом `doOperation`, который должен быть реализован в подклассах. Также включает метод для получения данных запроса.
 
-- Класс `NotificationEvents`:
+- Класс `NotificationEvents`:<br>
 Содержит константы событий уведомлений.
 
+- Класс `NotificationManager`:<br>
+Содержит методы для отправки различных уведомлений/сообщений
 
+- Класс `EmailHelper`:<br>
+Сюда перенесены внеклассовые методы, которые служат для получения электронных почтовых адресов посредника и работников
+
+- Основной класс `ReturnOperation`:<br>
+    - используя метод `getRequest` абстрактного класса-родителя получает данные.
+    - в случае, если данные пусты или каких-то данных не хватает - выбрасывает исключение.
+    - готовит шаблон для возвращения ответа.
+    - используя метод `Contractor::getById` и id полученные ранее, получает информацию по посреднику и заказчику, изготовителю и эксперту.
+    - используя метод `__` формирует сообщение об изменениях в процессе на необходимом языке.
+    - все полученные в предыдущих шагах данные используются для формирования шаблона данных. Если хоть одна переменная в шаблоне не задана, выбрасывается исключение.
+    - получает почтовый адрес с которого будет отослано письмо и адреса сотрудников, которым будет отослано письмо.
+    - используя метод `EmailHelper::sendMessage` отправляет письмо каждому сотруднику. Обновляет результат для ответа.
+    - если статус был изменен, то шлет письмо так же клиенту. Обновляет результат для ответа.
+    - если у клиента есть еще и телефон, то отправляет еще и туда. Если отправить не удалось, возвращает информацию об ошибке.
+    - возвращает результат.
 
 ### Внесенные исправления
 1. Файл others.php:
@@ -81,6 +98,42 @@ We expect you to:
 * find and fix all possible errors (syntax, design, security, etc.);
 * refactor the code of the ReturnOperation.php file into the best form in your opinion;
 * write a brief summary in the comments about the code: its purpose and quality.
+
+### Code Purpose
+The main class and its helper classes collectively handle requests, validate data, and send notifications via email and SMS.<br><br>
+Specifically:
+
+- Contractor Class and its inheritors (Seller, Employee):<br>
+These classes represent data models for contractors, sellers, and employees. The Contractor class has properties id, type, and name, as well as methods for getting the full name and searching by ID.
+
+- Status Class:<br>
+This class contains static data about statuses and a method to get the name of a status by its ID.
+
+- ReferencesOperation Class:<br>
+An abstract class for operations with a doOperation method that must be implemented in subclasses. It also includes a method for retrieving request data.
+
+- NotificationEvents Class:<br>
+Contains constants for notification events.
+
+- NotificationManager Class:<br>
+Contains methods for sending various notifications/messages.
+
+- EmailHelper Class:<br>
+Non-class methods that were previously used for retrieving intermediary and employee email addresses have been moved here.
+
+- Main ReturnOperation Class:<br>
+
+  - Uses the getRequest method of the abstract parent class to retrieve data.
+  - Throws an exception if the data is empty or incomplete.
+  - Prepares a template for the response.
+  - Uses the Contractor::getById method and previously obtained IDs to get information about the intermediary, customer, creator, and expert.
+  - Uses the __ method to generate a message about process changes in the required language.
+  - All data obtained in previous steps is used to form the data template. If any variable in the template is not set, an exception is thrown.
+  - Retrieves the email address from which the email will be sent and the addresses of the employees to whom the email will be sent.
+  - Uses the EmailHelper::sendMessage method to send an email to each employee. Updates the result for the response.
+  - If the status was changed, also sends an email to the client. Updates the result for the response.
+  - If the client also has a phone number, sends an SMS as well. If sending fails, returns error information.
+  - Returns the result.
 
 ### Changes Made
 1. File others.php:
