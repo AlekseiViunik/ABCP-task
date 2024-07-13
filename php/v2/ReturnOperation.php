@@ -23,7 +23,7 @@ class TsReturnOperation extends ReferencesOperation
     {
         $data = (array)$this->getRequest('data');
         if (!$data) {
-            throw new Exception('Empty notificationType', 400);
+            throw new Exception('No data provided', 400);
         }
         $resellerId = (int)$data['resellerId'];
         $notificationType = (int)$data['notificationType'];
