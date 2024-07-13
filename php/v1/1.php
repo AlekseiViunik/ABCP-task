@@ -56,6 +56,12 @@ class User
         return $ids;
     }
 
+    /**
+     * Проверяет, переданы ли нужные параметры и их тип
+     * @param array $user
+     * @return void
+     * @throws InvalidArgumentException
+     */
     private function validateUser(array $user): void
     {
         if (!isset($user['name']) || !is_string($user['name'])) {
