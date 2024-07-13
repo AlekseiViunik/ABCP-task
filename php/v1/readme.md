@@ -35,6 +35,7 @@
 - Метод `user` переименован в `getUserByName`
 - Метод `add` переименован в `addUserToDataBase`
 - В SQL запросе метода `addUserToDataBase` для VALUES последовательность значений изменена на правильную.
+- Приведение кода к стандарту PSR-12 с помощью Code Sniffer.
 
 
 ### Test Assignment for PHP Developer
@@ -73,3 +74,4 @@ We expect you to find all possible errors (syntax, design, security, etc.)
 - Renamed the `user` method to `getUserByName`.
 - Renamed the `add` method to `addUserToDataBase`.
 - In the SQL query of the `addUserToDataBase` method, corrected the sequence of values in VALUES.
+- Brought the code to PSR-12 standard using Code Sniffer.
