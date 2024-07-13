@@ -5,9 +5,9 @@ namespace NW\WebService\References\Operations\Notification;
 use Exception;
 
 /**
- * Class TsReturnOperation
+ * Class ReturnOperation
  */
-class TsReturnOperation extends ReferencesOperation
+class ReturnOperation extends ReferencesOperation
 {
     public const TYPE_NEW    = 1;
     public const TYPE_CHANGE = 2;
