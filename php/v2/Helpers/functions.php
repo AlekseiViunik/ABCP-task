@@ -3,12 +3,12 @@
 namespace NW\WebService\References\Operations\Notification;
 
 /**
- * Translate function
+ * Интернационализация текста
  *
- * @param string $key The translation key.
- * @param array|null $params The parameters for the translation.
- * @param int|null $resellerId Id of a reseller
- * @return string The translated string.
+ * @param string $key Ключ для перевода.
+ * @param array|null $params Параметры перевода.
+ * @param int|null $resellerId Id посредника
+ * @return string Переведенная строка.
  */
 function __(string $key, array|null $params = [], int|null $resellerId = null): string
 {
