@@ -3,7 +3,7 @@
 namespace NW\WebService\References\Operations\Notification;
 
 /**
- * Class Contractor
+ * Класс Contractor
  *
  * @property Seller $Seller
  */
@@ -34,7 +34,7 @@ class Contractor
     }
 
     /**
-     * Get Contractor by ID
+     * Получить подрядчика по id
      *
      * @param int $resellerId
      * @return self
@@ -45,7 +45,7 @@ class Contractor
     }
 
     /**
-     * Get full name of the Contractor
+     * Получить полное имя подрядчика
      *
      * @return string
      */
