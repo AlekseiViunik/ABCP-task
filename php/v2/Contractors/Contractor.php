@@ -34,7 +34,7 @@ class Contractor
     }
 
     /**
-     * Получить подрядчика по id
+     * Получить информацию о подрядчике, посреднике или заказчике по его id
      *
      * @param int $resellerId
      * @return self
