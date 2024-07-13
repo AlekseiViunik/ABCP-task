@@ -3,12 +3,12 @@
 namespace NW\WebService\References\Operations\Notification;
 
 /**
- * Class EmailHelper
+ * Класс EmailHelper
  */
 class EmailHelper
 {
     /**
-     * Get the email address of the reseller.
+     * Получить адрес электронной почты посредника.
      *
      * @param int $resellerId
      * @return string
@@ -19,10 +19,10 @@ class EmailHelper
     }
 
     /**
-     * Get emails of employees
+     * Получить адреса электронной почты работников.
      *
-     * @param int $resellerId
-     * @param string $event
+     * @param int $resellerId Id посредника.
+     * @param string $event Событие.
      * @return array
      */
     public static function getEmailsByPermit(int $resellerId, string $event): array
@@ -32,13 +32,13 @@ class EmailHelper
     }
 
     /**
-     * Sends a message using the specified parameters.
+     * Отправить сообщение, используя определенные параметры.
      *
-     * @param array $message The message details, including emailFrom, emailTo, subject, and body.
-     * @param int $resellerId The ID of the reseller.
-     * @param string $status The status of the notification event.
-     * @param int|null $clientId The ID of the client (optional).
-     * @param int|null $notificationType The type of notification (optional).
+     * @param array $message Детали сообщения, включая emailFrom, emailTo, subject, and body.
+     * @param int $resellerId Id посредника.
+     * @param string $status Статус уведомления.
+     * @param int|null $clientId Id клиента (optional).
+     * @param int|null $notificationType Тип уведомления (optional).
      * @return void
      */
     public static function sendMessage(
