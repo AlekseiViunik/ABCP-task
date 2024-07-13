@@ -3,22 +3,22 @@
 namespace NW\WebService\References\Operations\Notification;
 
 /**
- * Class NotificationManager
+ * Класс NotificationManager
  *
- * This class handles the sending of notifications to clients.
+ * Класс обрабатывает отправку уведомлений.
  */
 class NotificationManager
 {
     /**
-     * Sends a notification to a client.
+     * Отправляет уведомление клиентам.
      *
-     * @param int $resellerId The ID of the reseller.
-     * @param int $clientId The ID of the client.
-     * @param string $status The return status.
-     * @param int $notificationType The notification type.
-     * @param array $templateData The data to be used in the notification template.
-     * @param string &$error The error message, if any.
-     * @return bool True on success, false on failure.
+     * @param int $resellerId Id посредника.
+     * @param int $clientId Id клиента.
+     * @param string $status статус.
+     * @param int $notificationType Тип уведомления.
+     * @param array $templateData Данные для использования в шаблоне уведомления.
+     * @param string &$error Сообщение об ошибке.
+     * @return bool True в случае успеха, false, если ошибка.
      */
     public static function send(
         int $resellerId,
@@ -37,14 +37,14 @@ class NotificationManager
     }
 
     /**
-     * Sends the actual message to the service.
+     * Отправляет сообщение.
      *
-     * @param int $resellerId The ID of the reseller.
-     * @param int $clientId The ID of the client.
-     * @param string $status The return status.
-     * @param int $notificationType The notification type.
-     * @param array $templateData The data to be used in the notification template.
-     * @return bool True on success, false on failure.
+     * @param int $resellerId Id посредника.
+     * @param int $clientId Id клиента.
+     * @param string $status статус.
+     * @param int $notificationType Тип уведомления.
+     * @param array $templateData Данные для использования в шаблоне уведомления.
+     * @return bool True в случае успеха, false, если ошибка.
      */
     private static function sendMessageToService(
         int $resellerId,
