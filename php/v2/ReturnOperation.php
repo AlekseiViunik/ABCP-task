@@ -55,9 +55,9 @@ class TsReturnOperation extends ReferencesOperation
             throw new Exception('сlient not found!', 400);
         }
 
-        $cFullName = $client->getFullName();
+        $clientFullName = $client->getFullName();
         if (!$client->getFullName()) {
-            $cFullName = $client->name;
+            $clientFullName = $client->name;
         }
 
         $creator = Employee::getById((int)$data['creatorId']);
@@ -88,7 +88,7 @@ class TsReturnOperation extends ReferencesOperation
             'EXPERT_ID'          => (int)$data['expertId'],
             'EXPERT_NAME'        => $expert->getFullName(),
             'CLIENT_ID'          => (int)$data['clientId'],
-            'CLIENT_NAME'        => $cFullName,
+            'CLIENT_NAME'        => $clientFullName,
             'CONSUMPTION_ID'     => (int)$data['consumptionId'],
             'CONSUMPTION_NUMBER' => (string)$data['consumptionNumber'],
             'AGREEMENT_NUMBER'   => (string)$data['agreementNumber'],
