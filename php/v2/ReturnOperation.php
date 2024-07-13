@@ -26,6 +26,7 @@ class ReturnOperation extends ReferencesOperation
             throw new Exception('No data provided', 400);
         }
         $resellerId = (int)$data['resellerId'];
+        $clientId = (int)$data['clientId'];
         $notificationType = (int)$data['notificationType'];
         $result = [
             'notificationEmployeeByEmail' => false,
@@ -45,14 +46,18 @@ class ReturnOperation extends ReferencesOperation
             throw new Exception('Empty notificationType', 400);
         }
 
+        if (!$clientId) {
+            throw new Exception('Empty clientId', 400);
+        }
+
         $reseller = Seller::getById($resellerId);
         if (!$reseller) {
             throw new Exception('Seller not found!', 400);
         }
 
-        $client = Contractor::getById((int)$data['clientId']);
+        $client = Contractor::getById($clientId);
         if (!$client || $client->type !== Contractor::TYPE_CUSTOMER || $client->Seller->id !== $resellerId) {
-            throw new Exception('client not found!', 400);
+            throw new Exception('Client not found!', 400);
         }
 
         $clientFullName = $client->getFullName();
@@ -130,7 +135,7 @@ class ReturnOperation extends ReferencesOperation
                            'subject'   => __('complaintClientEmailSubject', $templateData, $resellerId),
                            'message'   => __('complaintClientEmailBody', $templateData, $resellerId),
                     ],
-                ], $resellerId, $client->id, NotificationEvents::CHANGE_RETURN_STATUS, (int)$data['differences']['to']);
+                ], $resellerId, NotificationEvents::CHANGE_RETURN_STATUS, $client->id, (int)$data['differences']['to']);
                 $result['notificationClientByEmail'] = true;
             }
 
